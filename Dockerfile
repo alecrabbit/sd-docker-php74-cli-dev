@@ -1,15 +1,20 @@
-FROM php:7.3-cli
+FROM dralec/php-cli
 
-ENV REDIS_VERSION 5.1.1
+ENV PHP_XDEBUG_VERSION 2.9.0
 
-RUN apt-get update && apt-get install -y unzip libicu-dev libwebp-dev \
-    libjpeg62-turbo-dev libpng-dev libxpm-dev libfreetype6-dev \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl \
-    && docker-php-ext-configure gd \
-    && docker-php-ext-install gd \
-    && pecl install -o -f redis-${REDIS_VERSION} \
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+RUN pecl install xdebug-${PHP_XDEBUG_VERSION} \
     && rm -rf /tmp/pear \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
-    && docker-php-ext-install mysqli pdo_mysql
+    && docker-php-ext-enable xdebug \
+    && composer --no-interaction global --prefer-stable require 'hirak/prestissimo' \
+    && composer --no-interaction global --prefer-stable require 'ergebnis/composer-normalize' \
+    && composer --no-interaction global --prefer-stable require 'squizlabs/php_codesniffer' \
+    && composer --no-interaction global --prefer-stable require 'phpstan/phpstan' \
+    && composer --no-interaction global --prefer-stable require 'vimeo/psalm' \
+    && composer --no-interaction global --prefer-stable require 'sensiolabs/security-checker' \
+    && composer --no-interaction global --prefer-stable require 'friendsofphp/php-cs-fixer'
+
+COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
