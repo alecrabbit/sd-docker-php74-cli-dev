@@ -1,6 +1,6 @@
 FROM dralec/php-cli
 
-ENV PHP_XDEBUG_VERSION 2.9.0
+ENV PHP_XDEBUG_VERSION 2.9.2
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
@@ -15,6 +15,7 @@ RUN pecl install xdebug-${PHP_XDEBUG_VERSION} \
     && composer --no-interaction global --prefer-stable require 'sensiolabs/security-checker' \
     && composer --no-interaction global --prefer-stable require 'friendsofphp/php-cs-fixer'
 
-COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./config/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./config/php/timezone.ini /usr/local/etc/php/conf.d/timezone.ini
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
