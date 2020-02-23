@@ -16,6 +16,5 @@ RUN pecl install xdebug-${PHP_XDEBUG_VERSION} \
     && composer --no-interaction global --prefer-stable require 'friendsofphp/php-cs-fixer'
 
 COPY ./config/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-COPY ./config/php/timezone.ini /usr/local/etc/php/conf.d/timezone.ini
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
