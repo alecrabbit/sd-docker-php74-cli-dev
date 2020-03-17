@@ -1,4 +1,4 @@
-FROM dralec/php-cli
+FROM dralec/php74-cli
 
 ENV PHP_XDEBUG_VERSION 2.9.2
 
