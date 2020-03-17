@@ -1,4 +1,4 @@
-# docker-php-cli-dev
+# docker-php74-cli-dev
 
 ```
 FROM dralec/php74-cli
