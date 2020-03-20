@@ -1,4 +1,5 @@
-FROM dralec/php74-cli
+ARG REPO_OWNER
+FROM ${REPO_OWNER}/php74-cli
 
 ENV PHP_XDEBUG_VERSION 2.9.2
 
